@@ -1,0 +1,52 @@
+package jspykee;
+
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
+import javax.swing.JLabel;
+
+/**
+ *
+ * @author dilli
+ */
+public class JImageComponent extends JLabel {
+
+    private Image image;
+    private boolean changed;
+
+    /**
+     * Set the image
+     * @param image
+     */
+    public void setImage(Image image) {
+        this.image = image;
+        this.changed = true;
+        this.repaint();
+    }
+
+    /**
+     * Set the image
+     * @param data
+     */
+    public void setImage(byte[] data) {
+        this.setImage(Toolkit.getDefaultToolkit().createImage(data));
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        if (this.image != null && this.changed) {
+            System.out.println("paint");
+            g.drawImage(this.image, 0, 0, this);
+
+            g.setColor(getBackground());
+            g.fillRect(0, 0, getWidth(), getHeight());
+
+            // Test
+            g.setColor(java.awt.Color.RED);
+            g.drawString("Hallo", 20, 20);
+            
+            this.changed = false;
+        }
+    }
+}
